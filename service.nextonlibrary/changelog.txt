@@ -1,3 +1,6 @@
+1.2.0
+- New setting: Limit to Shows, restrict Skip Intro to shows matched by a Kodi smart playlist (TV show title, Path, Genre, etc.), checked per episode
+
 1.1.5
 - Next On now pauses the current episode before opening the next one, so Kodi and Trakt can scrobble the episode as watched at the trigger position
 

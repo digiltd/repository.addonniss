@@ -348,7 +348,7 @@ class NextOnLibraryService(xbmc.Monitor):
         self.current_item = item
         self.current_episode = self.get_library_episode(item)
         self.current_movie = self.get_library_movie(item)
-        self.skip_intro_allowed = self.is_tv_show_playback(item)
+        self.skip_intro_allowed = self.is_tv_show_playback(item) and self.is_show_in_skip_intro_scope(item)
         self.next_episode = None
         self.chapter_starts, self.chapter_percents = self.get_chapter_markers()
         self.skip_intro_target = None
@@ -473,6 +473,39 @@ class NextOnLibraryService(xbmc.Monitor):
         if item.get("showtitle"):
             return True
         return (self.parse_int(item.get("season")) or 0) > 0 or (self.parse_int(item.get("episode")) or 0) > 0
+
+    def is_show_in_skip_intro_scope(self, item):
+        if not get_setting_bool("limit_skip_intro_to_shows"):
+            return True
+
+        playlist_path = get_setting_string("skip_intro_show_playlist")
+        if not playlist_path:
+            log("Limit to shows is on but no playlist is selected, Skip Intro applies to all shows")
+            return True
+
+        result = jsonrpc(
+            "Files.GetDirectory",
+            {"directory": playlist_path, "media": "video"},
+        )
+        if "error" in result or "result" not in result:
+            log("Could not evaluate show playlist '%s', Skip Intro applies to all shows" % playlist_path, xbmc.LOGWARNING)
+            return True
+
+        tvshow_id = item.get("tvshowid", -1)
+        episode_id = item.get("id", -1)
+        showtitle = (item.get("showtitle") or "").strip().casefold()
+        for entry in result["result"].get("files", []):
+            entry_type = entry.get("type")
+            if entry_type == "tvshow":
+                if tvshow_id not in (-1, None) and entry.get("id") == tvshow_id:
+                    return True
+                if tvshow_id in (-1, None) and showtitle and (entry.get("label") or "").strip().casefold() == showtitle:
+                    return True
+            elif entry_type == "episode" and episode_id not in (-1, None) and entry.get("id") == episode_id:
+                return True
+
+        log("'%s' is not matched by the show playlist, Skip Intro disabled for this episode" % (item.get("showtitle") or item.get("label") or ""), xbmc.LOGDEBUG)
+        return False
 
     def get_library_movie(self, item):
         if not item:
