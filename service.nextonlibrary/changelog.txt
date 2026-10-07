@@ -1,3 +1,6 @@
+1.2.1
+- New setting: Mute Until Intro Is Skipped, mutes matched shows at the start of an episode so an immediate intro is never heard, and unmutes for cold opens
+
 1.2.0
 - New setting: Limit to Shows, restrict Skip Intro to shows matched by a Kodi smart playlist (TV show title, Path, Genre, etc.), checked per episode
 

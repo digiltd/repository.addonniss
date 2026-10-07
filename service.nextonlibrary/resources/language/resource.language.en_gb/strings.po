@@ -296,3 +296,11 @@ msgstr ""
 msgctxt "#30078"
 msgid "No saved smart playlists found. Use Create / Edit Show Playlists first."
 msgstr ""
+
+msgctxt "#30079"
+msgid "Mute Until Intro Is Skipped"
+msgstr ""
+
+msgctxt "#30080"
+msgid "For shows matched by the playlist, mute audio at the start of the episode while the intro is looked up. Stays muted only if the intro begins at the start; episodes with a cold open are unmuted straight away."
+msgstr ""

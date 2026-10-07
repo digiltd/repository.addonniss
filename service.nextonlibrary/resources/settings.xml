@@ -18,6 +18,16 @@
                     </dependencies>
                 </setting>
 
+                <setting id="mute_limited_show_intro" type="boolean" label="30079" help="30080">
+                    <level>0</level>
+                    <control type="toggle" />
+                    <default>true</default>
+                    <dependencies>
+                        <dependency type="enable" setting="enable_skip_intro">true</dependency>
+                        <dependency type="enable" setting="limit_skip_intro_to_shows">true</dependency>
+                    </dependencies>
+                </setting>
+
                 <setting id="skip_intro_show_playlist" type="string" label="30072" help="30073">
                     <level>0</level>
                     <constraints>

@@ -35,6 +35,8 @@ WIKIPEDIA_STINGER_URL = (
     "&prop=text&format=json&utf8=1"
 )
 REMOTE_LOOKUP_TIMEOUT = 5
+INTRO_MUTE_LOOKUP_LIMIT = 10.0
+INTRO_MUTE_START_TOLERANCE = 3.0
 AUTO_PLAY_PROGRESS_FRAME_COUNT = 91
 IDLE_POLL_INTERVAL = 1.0
 ANIMATION_POLL_INTERVAL = 0.1
@@ -180,10 +182,12 @@ class NextOnLibraryService(xbmc.Monitor):
         self.player = NextOnLibraryPlayer(self)
         self.overlay = None
         self.remote_intro_cache = {}
+        self.muted_by_us = False
         self.reset_session()
 
     def reset_session(self):
         self.close_overlay()
+        self.set_intro_mute(False)
         self.current_file = ""
         self.current_item = None
         self.current_episode = None
@@ -282,6 +286,7 @@ class NextOnLibraryService(xbmc.Monitor):
                 continue
 
             self.refresh_chapter_markers(total_time)
+            self.update_intro_mute(current_time)
 
             if self.handle_skip_intro(current_time, total_time):
                 continue
@@ -310,6 +315,7 @@ class NextOnLibraryService(xbmc.Monitor):
 
             self.prompt_for_next_episode()
 
+        self.set_intro_mute(False)
         log("Service stopped", force=True)
 
     def check_next_on_enabled(self):
@@ -355,6 +361,12 @@ class NextOnLibraryService(xbmc.Monitor):
         self.current_episode = self.get_library_episode(item)
         self.current_movie = self.get_library_movie(item)
         self.skip_intro_allowed = self.is_tv_show_playback(item) and self.is_show_in_skip_intro_scope(item)
+        self.set_intro_mute(
+            self.skip_intro_allowed
+            and get_setting_bool("enable_skip_intro")
+            and get_setting_bool("limit_skip_intro_to_shows")
+            and get_setting_bool("mute_limited_show_intro")
+        )
         self.next_episode = None
         self.chapter_starts, self.chapter_percents = self.get_chapter_markers()
         self.skip_intro_target = None
@@ -479,6 +491,30 @@ class NextOnLibraryService(xbmc.Monitor):
         if item.get("showtitle"):
             return True
         return (self.parse_int(item.get("season")) or 0) > 0 or (self.parse_int(item.get("episode")) or 0) > 0
+
+    def set_intro_mute(self, mute):
+        if mute == self.muted_by_us:
+            return
+        if mute:
+            props = jsonrpc("Application.GetProperties", {"properties": ["muted"]}).get("result", {})
+            if props.get("muted"):
+                return
+        jsonrpc("Application.SetMute", {"mute": bool(mute)})
+        self.muted_by_us = bool(mute)
+        log("Intro mute %s" % ("on" if mute else "off"), xbmc.LOGDEBUG)
+
+    def update_intro_mute(self, current_time):
+        # Stay muted only while an intro that begins at the start of the episode is pending.
+        if not self.muted_by_us:
+            return
+        if self.skip_intro_target is None:
+            if current_time >= INTRO_MUTE_LOOKUP_LIMIT:
+                self.set_intro_mute(False)
+        elif current_time >= self.skip_intro_target:
+            self.set_intro_mute(False)
+        elif (self.skip_intro_start or 0.0) > current_time + INTRO_MUTE_START_TOLERANCE:
+            # Cold open: the intro begins later, so let the episode be heard until then
+            self.set_intro_mute(False)
 
     def is_show_in_skip_intro_scope(self, item):
         if not get_setting_bool("limit_skip_intro_to_shows"):
