@@ -74,6 +74,8 @@ When auto-play is enabled, `Auto-play Delay` accepts `0` to `20` seconds. A valu
 
 - `Enable Skip Intro`
 - `Online Metadata Priority`
+- `Limit to Shows`
+- `Show Playlist`
 - `Auto-skip Intro`
 - `Auto-skip Delay`
 - `Enable Fallback Intro Window`
@@ -86,6 +88,8 @@ Default behavior:
 - remote metadata is tried first
 - local chapters are used as fallback
 - `Auto-skip Intro` is `Off`
+
+`Limit to Shows` (default `Off`) restricts Skip Intro to shows matched by a Kodi smart playlist of type TV shows or Episodes. Use `Create / Edit Show Playlists...` to open Kodi's Videos > Playlists screen and build rules with Kodi's own editor (TV show title, Path, Genre, etc.), then pick it with `Choose Show Playlist...`. The playlist is checked for every episode that starts, so a shuffled mixed playlist only offers Skip Intro on the matching shows. If no playlist is selected or it cannot be read, Skip Intro applies to all shows.
 
 When auto-skip is enabled, `Auto-skip Delay` accepts `0` to `10` seconds and defaults to `2`. A value of `0` skips immediately when the Skip Intro prompt would appear. Values from `1` to `10` show the `Skip Intro` button with a filling pill progress overlay before skipping. Select skips immediately; other remote or keyboard actions cancel the prompt.
 

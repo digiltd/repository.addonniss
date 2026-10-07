@@ -9,6 +9,48 @@
                     <default>true</default>
                 </setting>
 
+                <setting id="limit_skip_intro_to_shows" type="boolean" label="30070" help="30071">
+                    <level>0</level>
+                    <control type="toggle" />
+                    <default>false</default>
+                    <dependencies>
+                        <dependency type="enable" setting="enable_skip_intro">true</dependency>
+                    </dependencies>
+                </setting>
+
+                <setting id="skip_intro_show_playlist" type="string" label="30072" help="30073">
+                    <level>0</level>
+                    <constraints>
+                        <allowempty>true</allowempty>
+                    </constraints>
+                    <control type="edit" format="string" />
+                    <default></default>
+                    <dependencies>
+                        <dependency type="enable" setting="enable_skip_intro">true</dependency>
+                        <dependency type="enable" setting="limit_skip_intro_to_shows">true</dependency>
+                    </dependencies>
+                </setting>
+
+                <setting id="skip_intro_choose_playlist" type="action" label="30074" help="30075">
+                    <level>0</level>
+                    <control type="button" format="action" />
+                    <data>RunScript(service.nextonlibrary,choose_show_playlist)</data>
+                    <dependencies>
+                        <dependency type="enable" setting="enable_skip_intro">true</dependency>
+                        <dependency type="enable" setting="limit_skip_intro_to_shows">true</dependency>
+                    </dependencies>
+                </setting>
+
+                <setting id="skip_intro_edit_playlists" type="action" label="30076" help="30077">
+                    <level>0</level>
+                    <control type="button" format="action" />
+                    <data>RunScript(service.nextonlibrary,edit_show_playlists)</data>
+                    <dependencies>
+                        <dependency type="enable" setting="enable_skip_intro">true</dependency>
+                        <dependency type="enable" setting="limit_skip_intro_to_shows">true</dependency>
+                    </dependencies>
+                </setting>
+
                 <setting id="online_intro_metadata_priority" type="boolean" label="30025" help="30026">
                     <level>0</level>
                     <control type="toggle" />

@@ -260,3 +260,39 @@ msgstr ""
 msgctxt "#30069"
 msgid "When enabled, the Skip Intro button stays visible for the entire intro segment instead of disappearing after 20%. Useful when you want to decide later in the intro whether to skip."
 msgstr ""
+
+msgctxt "#30070"
+msgid "Limit to Shows"
+msgstr ""
+
+msgctxt "#30071"
+msgid "Only offer Skip Intro for shows matched by a Kodi smart playlist. Evaluated for each episode, so a mixed playlist skips intros only on the shows you choose."
+msgstr ""
+
+msgctxt "#30072"
+msgid "Show Playlist"
+msgstr ""
+
+msgctxt "#30073"
+msgid "Smart playlist (.xsp) of type TV shows or Episodes that defines which shows Skip Intro applies to."
+msgstr ""
+
+msgctxt "#30074"
+msgid "Choose Show Playlist..."
+msgstr ""
+
+msgctxt "#30075"
+msgid "Pick one of your saved smart playlists to use as the show filter."
+msgstr ""
+
+msgctxt "#30076"
+msgid "Create / Edit Show Playlists..."
+msgstr ""
+
+msgctxt "#30077"
+msgid "Open Kodi's Videos > Playlists screen. Use New smart playlist to build rules such as TV show title, Path or Genre, then choose it here."
+msgstr ""
+
+msgctxt "#30078"
+msgid "No saved smart playlists found. Use Create / Edit Show Playlists first."
+msgstr ""
