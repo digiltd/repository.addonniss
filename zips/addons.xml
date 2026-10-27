@@ -54,7 +54,7 @@
     </extension>
 
 </addon>
-<addon id="service.nextonlibrary" name="Skip.Intro.Next" version="1.1.8" provider-name="Addonniss">
+<addon id="service.nextonlibrary" name="Skip.Intro.Next" version="1.2.1" provider-name="Addonniss">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
     </requires>
@@ -101,14 +101,14 @@
     <extension point="xbmc.addon.repository"
                name="Addonniss Repository">
         <dir>
-            <info compressed="false">https://raw.githubusercontent.com/Addonniss/repository.addonniss/main/zips/addons.xml</info>
-            <checksum>https://raw.githubusercontent.com/Addonniss/repository.addonniss/main/zips/addons.xml.md5</checksum>
-            <datadir zip="true">https://raw.githubusercontent.com/Addonniss/repository.addonniss/main/zips/</datadir>
+            <info compressed="false">https://raw.githubusercontent.com/digiltd/repository.addonniss/fork-kodi-repo/zips/addons.xml</info>
+            <checksum>https://raw.githubusercontent.com/digiltd/repository.addonniss/fork-kodi-repo/zips/addons.xml.md5</checksum>
+            <datadir zip="true">https://raw.githubusercontent.com/digiltd/repository.addonniss/fork-kodi-repo/zips/</datadir>
         </dir>
     </extension>
 
     <extension point="xbmc.addon.metadata">
-        <summary>Official Repository for Addonniss AI Tools</summary>
+        <summary>Fork of Addonniss with Skip Intro Limit to Shows</summary>
         <description>Get the latest updates for Translatarr and other AI-powered Kodi services.</description>
         <platform>all</platform>
     </extension>
